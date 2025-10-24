@@ -88,6 +88,7 @@ public final class McModShowClientEvents {
                         backgroundPath,
                         exception
                 );
+                LOGGER.warn("Failed to load configured background '{}'. Using vanilla title screen.", backgroundPath, exception);
                 activeBackground = null;
             }
         } else {
@@ -118,6 +119,8 @@ public final class McModShowClientEvents {
 
         @SubscribeEvent(priority = EventPriority.HIGHEST)
         public static void onBackgroundRender(ScreenEvent.BackgroundRendered event) {
+        @SubscribeEvent
+        public static void onBackgroundRender(ScreenEvent.BackgroundRender event) {
             if (!(event.getScreen() instanceof TitleScreen)) {
                 return;
             }
