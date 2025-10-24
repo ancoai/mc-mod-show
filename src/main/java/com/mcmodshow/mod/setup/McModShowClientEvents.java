@@ -113,6 +113,7 @@ public final class McModShowClientEvents {
 
         @SubscribeEvent
         public static void onBackgroundRender(ScreenEvent.Render.Background event) {
+        public static void onBackgroundRender(ScreenEvent.BackgroundRender event) {
             if (!(event.getScreen() instanceof TitleScreen)) {
                 return;
             }
