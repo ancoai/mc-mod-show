@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
@@ -82,6 +83,11 @@ public final class McModShowClientEvents {
                 activeBackground = textureManager.register(McModShowMod.MOD_ID + "_menu_background", dynamicTexture);
                 LOGGER.info("Loaded menu background from {}", backgroundPath);
             } catch (IOException exception) {
+                LOGGER.warn(
+                        "Failed to load configured background '{}'. Using vanilla title screen.",
+                        backgroundPath,
+                        exception
+                );
                 LOGGER.warn("Failed to load configured background '{}'. Using vanilla title screen.", backgroundPath, exception);
                 activeBackground = null;
             }
@@ -111,6 +117,8 @@ public final class McModShowClientEvents {
         private ScreenRendering() {
         }
 
+        @SubscribeEvent(priority = EventPriority.HIGHEST)
+        public static void onBackgroundRender(ScreenEvent.BackgroundRendered event) {
         @SubscribeEvent
         public static void onBackgroundRender(ScreenEvent.BackgroundRender event) {
             if (!(event.getScreen() instanceof TitleScreen)) {
